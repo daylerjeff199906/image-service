@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: image-service
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 3000
