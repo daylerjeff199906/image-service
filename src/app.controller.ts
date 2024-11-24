@@ -2,6 +2,7 @@ import { Controller, Get, Query, Res } from '@nestjs/common';
 import { Response } from 'express';
 import axios from 'axios';
 import * as sharp from 'sharp';
+import { formatImageUrl } from './common/utils/format-image-url';
 
 @Controller()
 export class AppController {
@@ -40,10 +41,13 @@ export class AppController {
       const outputBuffer = await processedImage.toBuffer();
 
       // Devuelve la imagen en base64
-      return {
-        contentType: 'image/jpeg',
-        data: outputBuffer.toString('base64'),
-      };
+      const urlFormatted = formatImageUrl({
+        responseData: {
+          contentType: 'image/jpeg',
+          data: outputBuffer.toString('base64'),
+        },
+      });
+      return urlFormatted;
     } catch (error) {
       console.error(error);
       return { error: 'Error procesando la imagen' };
